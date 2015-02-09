@@ -1,0 +1,1002 @@
+
+package pos;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
+/**
+ *
+ * @author Andromida
+ */
+public class On_service extends javax.swing.JFrame {
+
+    connectDB cnnt = new connectDB();
+    Statement stat = null, stat2 = null, stat3 = null;
+    ResultSet res = null, res2 = null, res3 = null;
+    String itq_as = "select selling_date, product_id, product_name, product_vendor, customer_name from (record join sell_rec using (product_id)) join customer using (customer_id) where warranty_period not like 0";
+    String itq_ph = "SELECT `service_id`, `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date` FROM `on_service`";
+    String date1 = "", date2 = "", date3 = "", date4 = "";
+    Calendar currentDate = Calendar.getInstance(); //Get the current date
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); //format it as per your requirement
+    String dateNow = formatter.format(currentDate.getTime());
+    Date today = null;
+    DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * Creates new form On_service
+     */
+    public On_service() {
+
+        initComponents();
+        setAlwaysOnTop(true);
+        cnnt.myConnect();
+        ButtonGroup bg = new ButtonGroup();
+        bg.add(jRadioButton1);
+        bg.add(jRadioButton2);
+        bg.add(jRadioButton3);
+        ButtonGroup bg2 = new ButtonGroup();
+        bg2.add(jRadioButton4);
+        bg2.add(jRadioButton5);
+        bg2.add(jRadioButton6);
+
+        jRadioButton1.setSelected(true);
+        jRadioButton4.setSelected(true);
+
+        jComboBox1.setEnabled(false);
+        jComboBox2.setEnabled(false);
+        jComboBox3.setEnabled(false);
+        jComboBox4.setEnabled(false);
+        jComboBox5.setEnabled(true);
+        //date parser
+        try {
+            today = (Date) f.parse(dateNow);
+        } catch (Exception ex) {
+            Logger.getLogger(sell_product.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jDateChooser4.setDate(today);
+        //combo customer
+        String c_name = null;
+        stat2 = cnnt.getStatement();
+        res2 = cnnt.getResultset();
+        try {
+            jComboBox1.removeAllItems();
+            jComboBox3.removeAllItems();
+            res2 = stat2.executeQuery("select distinct customer_name from customer");
+
+            while (res2.next()) {
+                c_name = res2.getString("customer_name");
+                jComboBox1.addItem(c_name);
+                jComboBox3.addItem(c_name);
+            }
+            AutoCompleteDecorator.decorate(jComboBox1);
+            jComboBox1.revalidate();
+            jComboBox3.revalidate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //contact no. combo box
+        String c_no = null;
+        stat2 = cnnt.getStatement();
+        res2 = cnnt.getResultset();
+        try {
+            jComboBox2.removeAllItems();
+            res2 = stat2.executeQuery("select distinct contact_no from customer");
+
+            while (res2.next()) {
+                c_no = res2.getString("contact_no");
+                jComboBox2.addItem(c_no);
+            }
+            AutoCompleteDecorator.decorate(jComboBox2);
+            jComboBox2.revalidate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //product_id combo box
+        String p_id = null;
+        stat3 = cnnt.getStatement();
+        res3 = cnnt.getResultset();
+        try {
+            jComboBox5.removeAllItems();
+            jComboBox4.removeAllItems();
+            res3 = stat3.executeQuery("select distinct product_id from product");
+
+            while (res3.next()) {
+                p_id = res3.getString("product_id");
+                jComboBox5.addItem(p_id);
+                jComboBox4.addItem(p_id);
+            }
+            AutoCompleteDecorator.decorate(jComboBox5);
+            jComboBox5.revalidate();
+            jComboBox4.revalidate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Category.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Table_as(itq_as);
+        Table_ph(itq_ph);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        on_service_add = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox5 = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
+        jDateChooser3 = new com.toedter.calendar.JDateChooser();
+        jLabel6 = new javax.swing.JLabel();
+        handover = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox4 = new javax.swing.JComboBox();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jComboBox3 = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButton8 = new javax.swing.JButton();
+        jDateChooser4 = new com.toedter.calendar.JDateChooser();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("On Service");
+
+        jButton4.setText("EXIT");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Search"));
+
+        jRadioButton3.setText("Contact_no");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
+
+        jRadioButton2.setText("Customer_name");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("Product_id");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
+
+        jLabel1.setText("Customer Name");
+
+        jLabel2.setText("Contact_no");
+
+        jComboBox5.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox5ItemStateChanged(evt);
+            }
+        });
+
+        jLabel5.setText("Product_id");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jRadioButton3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, 201, Short.MAX_VALUE))))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jRadioButton1)
+                .addGap(13, 13, 13)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jButton2.setText("Add to service");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("PRINT");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Purchase Date", "Product ID", "Product Name", "Company", "Customer Name"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pos/refresh.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jDateChooser3.setDateFormatString("yyyy-MM-dd");
+        jDateChooser3.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser3PropertyChange(evt);
+            }
+        });
+
+        jLabel6.setText("Promised handover Date");
+
+        javax.swing.GroupLayout on_service_addLayout = new javax.swing.GroupLayout(on_service_add);
+        on_service_add.setLayout(on_service_addLayout);
+        on_service_addLayout.setHorizontalGroup(
+            on_service_addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(on_service_addLayout.createSequentialGroup()
+                .addGap(214, 214, 214)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 241, Short.MAX_VALUE)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, on_service_addLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, on_service_addLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(on_service_addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, on_service_addLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4)
+                        .addGap(282, 282, 282))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, on_service_addLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(241, 241, 241))))
+        );
+        on_service_addLayout.setVerticalGroup(
+            on_service_addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(on_service_addLayout.createSequentialGroup()
+                .addGroup(on_service_addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(on_service_addLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(on_service_addLayout.createSequentialGroup()
+                        .addComponent(jButton7)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(on_service_addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(on_service_addLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Add to Service", on_service_add);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Service ID", "Customer ID", "Customer Name", "Product ID", "Product Name", "Company Name", "Purchase Date", "Entry Date", "Handover Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTable2);
+
+        jButton5.setText("DISCHARGE");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("EXIT");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Search"));
+
+        jRadioButton4.setSelected(true);
+        jRadioButton4.setText("Date");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("From");
+
+        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox4ItemStateChanged(evt);
+            }
+        });
+
+        jRadioButton6.setText("Product ID");
+        jRadioButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton6ActionPerformed(evt);
+            }
+        });
+
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("To");
+
+        jRadioButton5.setText("Customer Name");
+        jRadioButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton5ActionPerformed(evt);
+            }
+        });
+
+        jDateChooser2.setDateFormatString("yyyy-MM-dd");
+        jDateChooser2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser2PropertyChange(evt);
+            }
+        });
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd\n");
+        jDateChooser1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser1PropertyChange(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jRadioButton6)
+                        .addComponent(jRadioButton5)
+                        .addComponent(jRadioButton4)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(8, 8, 8)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6, 6, 6)
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRadioButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(jRadioButton6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pos/refresh.png"))); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout handoverLayout = new javax.swing.GroupLayout(handover);
+        handover.setLayout(handoverLayout);
+        handoverLayout.setHorizontalGroup(
+            handoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, handoverLayout.createSequentialGroup()
+                .addGap(296, 296, 296)
+                .addComponent(jButton5)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(handoverLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(handoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(handoverLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(handoverLayout.createSequentialGroup()
+                        .addGap(236, 236, 236)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 266, Short.MAX_VALUE)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        handoverLayout.setVerticalGroup(
+            handoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, handoverLayout.createSequentialGroup()
+                .addGroup(handoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(handoverLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(20, 20, 20))
+                    .addGroup(handoverLayout.createSequentialGroup()
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(handoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
+                .addGap(15, 15, 15))
+        );
+
+        jTabbedPane1.addTab("Product Handover", handover);
+
+        jDateChooser4.setDateFormatString("yyyy-MM-dd");
+        jDateChooser4.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDateChooser4PropertyChange(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    public void Table_as(String query) {
+
+        try {
+            cnnt.myConnect();
+
+            stat = cnnt.getStatement();
+            res = cnnt.getResultset();
+
+            res = stat.executeQuery(query);
+
+            DefaultTableModel dtm = new DefaultTableModel();
+
+            dtm.setColumnIdentifiers(new String[]{"Purchased Date", "Product ID", "Product Name", "Company", "Customer Name"});
+
+            int size = 0;
+            while (res.next()) {
+                size++;
+            }
+
+            dtm.setRowCount(size);
+
+            ResultSet r1 = cnnt.getResultset();
+            Statement s1 = cnnt.getStatement();
+
+            r1 = s1.executeQuery(query);
+
+            int i = 0;
+            while (r1.next()) {
+
+                dtm.setValueAt(r1.getDate(1), i, 0);
+                dtm.setValueAt(r1.getString(2), i, 1);
+                dtm.setValueAt(r1.getString(3), i, 2);
+                dtm.setValueAt(r1.getString(4), i, 3);
+                dtm.setValueAt(r1.getString(5), i, 4);
+                i++;
+
+            }
+            jTable1.setModel(dtm);
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void Table_ph(String query) {
+
+        try {
+            cnnt.myConnect();
+
+            stat = cnnt.getStatement();
+            res = cnnt.getResultset();
+
+            res = stat.executeQuery(query);
+
+            DefaultTableModel dtm = new DefaultTableModel();
+
+            dtm.setColumnIdentifiers(new String[]{"Service ID", "Customer ID", "Customer Name", "Product ID", "Product Name", "Company Name", "Purchase Date", "Entry Date", "Handover Date"});
+
+            int size = 0;
+            while (res.next()) {
+                size++;
+            }
+
+            dtm.setRowCount(size);
+
+            ResultSet r1 = cnnt.getResultset();
+            Statement s1 = cnnt.getStatement();
+
+            r1 = s1.executeQuery(query);
+
+            int i = 0;
+            while (r1.next()) {
+
+                dtm.setValueAt(r1.getInt(1), i, 0);
+                dtm.setValueAt(r1.getInt(2), i, 1);
+                dtm.setValueAt(r1.getString(3), i, 2);
+                dtm.setValueAt(r1.getString(4), i, 3);
+                dtm.setValueAt(r1.getString(5), i, 4);
+                dtm.setValueAt(r1.getString(6), i, 5);
+                dtm.setValueAt(r1.getDate(7), i, 6);
+                dtm.setValueAt(r1.getDate(8), i, 7);
+                dtm.setValueAt(r1.getDate(9), i, 8);
+                i++;
+
+            }
+            jTable2.setModel(dtm);
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+        jComboBox1.setEnabled(false);
+        jComboBox2.setEnabled(false);
+        jComboBox5.setEnabled(true);
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+        jComboBox5.setEnabled(false);
+        jComboBox2.setEnabled(false);
+        jComboBox1.setEnabled(true);
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here:
+        jComboBox5.setEnabled(false);
+        jComboBox1.setEnabled(false);
+        jComboBox2.setEnabled(true);
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        // TODO add your handling code here:
+        jComboBox3.setEnabled(false);
+        jComboBox4.setEnabled(false);
+        jDateChooser1.setEnabled(true);
+        jDateChooser2.setEnabled(true);
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
+        // TODO add your handling code here:
+        jComboBox3.setEnabled(true);
+        jComboBox4.setEnabled(false);
+        jDateChooser1.setEnabled(false);
+        jDateChooser2.setEnabled(false);
+    }//GEN-LAST:event_jRadioButton5ActionPerformed
+
+    private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
+        // TODO add your handling code here:
+        jComboBox3.setEnabled(false);
+        jComboBox4.setEnabled(true);
+        jDateChooser1.setEnabled(false);
+        jDateChooser2.setEnabled(false);
+    }//GEN-LAST:event_jRadioButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String cnm = null, pid = null, pnm = null, comnm = null;
+        Integer cid = null;
+        int rc = jTable1.getRowCount();
+
+        //row state conditioning
+        if (rc >= 1 && jDateChooser3.getDate() != null) {
+
+            String pi = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
+            String sd = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+
+            stat = cnnt.getStatement();
+            res = cnnt.getResultset();
+
+            //fetch data for the selected index
+            String q = "select `customer_id`, `customer_name`, `product_id`, `product_name`, `product_vendor` from (record join sell_rec using (product_id)) join customer using (customer_id) where product_id like '" + pi + "' ";
+
+            try {
+                res = stat.executeQuery(q);
+                while (res.next()) {
+                    cid = res.getInt("customer_id");
+                    cnm = res.getString("customer_name");
+                    pid = res.getString("product_id");
+                    pnm = res.getString("product_name");
+                    comnm = res.getString("product_vendor");
+
+                }
+                System.out.println("aise");
+            } catch (SQLException ex) {
+                Logger.getLogger(On_service.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Insert data for the selected index
+
+            q = "INSERT INTO `on_service`( `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date`) "
+                    + "VALUES (" + cid + ",'" + cnm + "','" + pid + "','" + pnm + "','" + comnm + "','" + sd + "','" + date2 + "','" + date1 + "')";
+
+            try {
+                stat.executeUpdate(q);
+                System.out.println("Inserted");
+                JOptionPane.showMessageDialog(rootPane, "Row added to service list!");
+            } catch (SQLException ex) {
+                Logger.getLogger(On_service.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (rc == 1) {
+
+        } else if (rc < 1) {
+            JOptionPane.showMessageDialog(rootPane, "No entry to add to service!");
+        } else if (rc >= 1 && jDateChooser3.getDate() == null) {
+            JOptionPane.showMessageDialog(rootPane, "Select handover date!");
+
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        String q = "select selling_date, product_id, product_name, product_vendor, customer_name from (record join sell_rec using (product_id)) join customer using (customer_id) where customer_name like '" + jComboBox1.getSelectedItem().toString() + "'";
+        Table_as(q);
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        String q = "select selling_date, product_id, product_name, product_vendor, customer_name from (record join sell_rec using (product_id)) join customer using (customer_id)";
+        Table_as(q);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        // TODO add your handling code here:
+        String q = "select selling_date, product_id, product_name, product_vendor, customer_name from (record join sell_rec using (product_id)) join customer using (customer_id) where contact_no like '" + jComboBox2.getSelectedItem().toString() + "'";
+        Table_as(q);
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jComboBox5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox5ItemStateChanged
+        // TODO add your handling code here:
+        String q = "select selling_date, product_id, product_name, product_vendor, customer_name from (record join sell_rec using (product_id)) join customer using (customer_id) where product_id like '" + jComboBox5.getSelectedItem().toString() + "'";
+        Table_as(q);
+    }//GEN-LAST:event_jComboBox5ItemStateChanged
+
+    private void jDateChooser3PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser3PropertyChange
+        // TODO add your handling code here:
+        if ("date".equals(evt.getPropertyName())) {
+            date1 = ((JTextField) jDateChooser3.getDateEditor().getUiComponent()).getText();
+            System.out.println("Date : " + date1);
+        }
+    }//GEN-LAST:event_jDateChooser3PropertyChange
+
+    private void jDateChooser4PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser4PropertyChange
+        // TODO add your handling code here:
+        if ("date".equals(evt.getPropertyName())) {
+            date2 = ((JTextField) jDateChooser4.getDateEditor().getUiComponent()).getText();
+            System.out.println("Date : " + date2);
+        }
+    }//GEN-LAST:event_jDateChooser4PropertyChange
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        Table_ph(itq_ph);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jDateChooser1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser1PropertyChange
+        // TODO add your handling code here:
+        if ("date".equals(evt.getPropertyName())) {
+            date3 = ((JTextField) jDateChooser1.getDateEditor().getUiComponent()).getText();
+            System.out.println("Date : " + date3);
+        }
+
+        if (date3 != null && date4 != null) {
+            String q = "SELECT `service_id`, `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date` FROM `on_service` where entry_date between '"+date3+"' and '"+date4+"'";
+            Table_ph(q);
+        }
+    }//GEN-LAST:event_jDateChooser1PropertyChange
+
+    private void jDateChooser2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser2PropertyChange
+        // TODO add your handling code here:
+        if ("date".equals(evt.getPropertyName())) {
+            date4 = ((JTextField) jDateChooser2.getDateEditor().getUiComponent()).getText();
+            System.out.println("Date : " + date4);
+        }
+        System.out.println(date3+" test date "+date4);
+        if (date3 != null && date4 != null) {
+            String q = "SELECT `service_id`, `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date` FROM `on_service` where entry_date between '"+date3+"' and '"+date4+"'";
+            Table_ph(q);
+        }
+    }//GEN-LAST:event_jDateChooser2PropertyChange
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        // TODO add your handling code here:
+
+        String q = "SELECT `service_id`, `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date` FROM `on_service` where customer_name like '" + jComboBox3.getSelectedItem().toString() + "'";
+        Table_ph(q);
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+        // TODO add your handling code here:
+        String q = "SELECT `service_id`, `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date` FROM `on_service` where product_id like '" + jComboBox4.getSelectedItem().toString() + "'";
+        Table_ph(q);
+    }//GEN-LAST:event_jComboBox4ItemStateChanged
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        String f=jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString();
+        stat= cnnt.getStatement();
+        
+        if(f!=null){
+            String q="delete from on_service where service_id like '"+f+"'";
+            try {
+                stat.executeUpdate(q);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(On_service.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            q="SELECT `service_id`, `customer_id`, `customer_name`, `product_id`, `product_name`, `company_name`, `purchase_date`, `entry_date`, `handover_date` FROM `on_service`";
+            Table_ph(q);
+            JOptionPane.showMessageDialog(rootPane, "Service ended - Service ID : "+f);
+        }   
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(On_service.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(On_service.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(On_service.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(On_service.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new On_service().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel handover;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox3;
+    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JComboBox jComboBox5;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooser3;
+    private com.toedter.calendar.JDateChooser jDateChooser4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel on_service_add;
+    // End of variables declaration//GEN-END:variables
+}

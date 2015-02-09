@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7640b610-909e-4947-afe0-79267e5af731">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT `product_id`, `product_name`, `product_vendor`, `warranty_period`, `selling_price` FROM temp]]>
+	</queryString>
+	<field name="product_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="product_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="product_vendor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="warranty_period" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="selling_price" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="197" y="0" width="263" height="57" uuid="de37ed92-f9a2-4c35-8404-126be8a05792"/>
+				<textElement verticalAlignment="Middle">
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[Meena Bazar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="245" y="48" width="123" height="22" uuid="78e8a390-48cc-443d-b147-6133960e64c4"/>
+				<text><![CDATA[I N V O I C E]]></text>
+			</staticText>
+			<image>
+				<reportElement x="39" y="13" width="147" height="52" uuid="38293d2b-928f-4c90-916e-81ded1ba003d"/>
+				<imageExpression><![CDATA["E:\\database\\POS\\images.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="2eafe871-c72a-4b12-bb5f-af0e15938bfa"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="111" height="15" uuid="4d5ff845-92a9-4656-a208-55678e2c24d0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Product ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="111" y="19" width="111" height="15" uuid="43bc7856-735e-4476-916b-c9529e0f8f97"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Product Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="222" y="19" width="111" height="15" uuid="1c8db94a-b866-4176-a97e-556dd1fb3afe"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Company]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="333" y="19" width="111" height="15" uuid="85dbad98-8a45-4689-b270-7738697ae87c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Warranty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="444" y="19" width="111" height="15" uuid="0578e6fa-cf1a-4cac-9f43-895499933cae"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="b0090c8a-42a6-4448-b756-867bfc7d5e2b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="111" height="15" uuid="41a40e13-3649-4814-80b5-ce8f29eff62f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{product_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="111" y="0" width="111" height="15" uuid="8c8cff86-7058-41c3-94f1-f18ba2f08666"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="222" y="0" width="111" height="15" uuid="acab43a8-853d-4543-9238-f00ed8bf44c6"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{product_vendor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="333" y="0" width="111" height="15" uuid="b42d4b18-b58c-4bcb-872b-c8040cbeedb8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{warranty_period}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="444" y="0" width="111" height="15" uuid="8762adfc-9d69-499a-b05a-365f96dc628f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{selling_price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="90010f9e-5f10-4a86-af15-c3b94c792c48"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="0078259a-31d8-465f-b988-31b816921d12"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="ee84a19e-90bc-484a-bd31-67901707adaf"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="8785722f-54d6-45a4-9296-12a2588ae6d8"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
