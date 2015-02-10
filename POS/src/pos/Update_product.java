@@ -1116,7 +1116,7 @@ public class Update_product extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(Update_product.class.getName()).log(Level.SEVERE, null, ex);
                 }
-//                System.out.println("New quantity " + (old_q + Integer.parseInt(q)));
+
                 String query_upd = "UPDATE `product` SET `product_quantity`=" + (old_q + Integer.parseInt(q)) + " where product_id='" + product_id + "'";
 
                 try {
@@ -1133,6 +1133,11 @@ public class Update_product extends javax.swing.JFrame {
                         + ", '" + jComboBox3.getSelectedItem().toString() + "', '" + jComboBox4.getSelectedItem().toString() + "' )";
                 
                 String sql = "UPDATE `record` SET `product_quantity`= " + (old_q + Integer.parseInt(q)) + " WHERE `product_id` = '" + product_id + "'";
+                String warr = jTextField8.getText();
+                Integer warranty = 0;
+                if(!warr.isEmpty()) warranty = Integer.parseInt(warr);
+                String query = "INSERT INTO `buy_history`(`product_id`, `product_name`, `quantity`, `company`, `invoice_no`, `warranty`, `buying_price`, `selling_price`, `date`, `category`, `sub_category`) "
+                        + "VALUES('" + product_id + "', '" + jTextField2.getText() + "', " + q + ", '" + jTextField7.getText() + "', '"+jTextField10.getText()+"', "+warranty+", ) ";
                 
                 try {
                     s1.executeUpdate(sql);
